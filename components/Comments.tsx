@@ -22,7 +22,7 @@ const Comments = () => {
             </button>
           </>
         ) : (
-          <div>Log in to write a comment</div>
+          <div>Log in to add a comment</div>
         )}
       </form>
       <hr className="mt-6 mb-6" />
