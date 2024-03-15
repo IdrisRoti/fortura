@@ -43,11 +43,13 @@ model Session {
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  posts         Post[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -57,4 +59,38 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  label String @unique
+  post  Post[]
+}
+
+model Post {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  slug       String    @unique
+  content    String
+  decription String
+  imgUrl     String?
+  public_id  String?
+  createdAt  DateTime  @default(now())
+  comments   Comment[]
+
+  userEmail String
+  user      User     @relation(fields: [userEmail], references: [email])
+  catName   String
+  cat       Category @relation(fields: [catName], references: [label])
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+
+  userEmail String
+  user      User   @relation(fields: [userEmail], references: [email])
+  postSlug  String
+  post      Post   @relation(fields: [postSlug], references: [slug])
 }
