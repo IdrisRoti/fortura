@@ -5,15 +5,19 @@ import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import { CldUploadButton, CloudinaryUploadWidgetResults } from "next-cloudinary";
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 
 import { catType } from "./Navbar";
 import { CiImageOn } from "react-icons/ci";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export default function CreatePostForm() {
   const [categories, setCategories] = useState<catType[]>([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -38,28 +42,61 @@ export default function CreatePostForm() {
     getCategories();
   }, []);
 
-  const handleImageUpload = (result:CloudinaryUploadWidgetResults)=>{
+  const handleImageUpload = (result: CloudinaryUploadWidgetResults) => {
     const info = result.info as Object;
-    if("secure_url" in info && "public_id" in info){
+    if ("secure_url" in info && "public_id" in info) {
       const url = info.secure_url as string;
       const public_id = info.public_id as string;
 
-      setImgUrl(url)
-      setPublicId(public_id)
-      
+      setImgUrl(url);
+      setPublicId(public_id);
     }
-  }
+  };
 
-  const handlePost = (e: React.FormEvent<HTMLFormElement>) => {
+  const removeImage = () => {
+    console.log("Clicked")
+    axios
+      .post("/api/removeImage", { publicId })
+      .then((data) => {
+        console.log(data);
+        setPublicId(""),
+        setImgUrl("");
+        toast.success("Image deleted!");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Failed to delete image!");
+      });
+  };
+
+  const handlePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // try {
-    //   setLoading(true)
-    // } catch (error) {
-    //   console.log(error)
-    //   setLoading(false)
-    // }
-    console.log(title, value, category, imgUrl, publicId, description);
+    if (!title || !value || !description) {
+      toast("Titie, description and Content are required!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post("http://localhost:3000//api/posts", {
+        title,
+        value,
+        category,
+        imgUrl,
+        publicId,
+        description,
+      });
+      if (response) {
+        console.log(response);
+        setLoading(false);
+        toast.success("post created");
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -85,17 +122,35 @@ export default function CreatePostForm() {
         />
       </div>
 
-        <CldUploadButton onUpload={handleImageUpload} uploadPreset="xopezhiy" className="mt-12 mb-6 w-full h-60 bg-slate-100 grid place-items-center border-2 border-dotted relative">
-            <div className="flex flex-col items-center">
-              <CiImageOn className="w-16 h-16 text-slate-400"/>
-              <span className="font-semibold text-slate-600">Upload image</span>
-            </div>
-        {
-          imgUrl && (
-            <Image src={imgUrl} alt={"upload image"} fill  className="absolute inset-0 object-cover"/>
-          )
-        }
-        </CldUploadButton>
+      <CldUploadButton
+        onUpload={handleImageUpload}
+        uploadPreset="xopezhiy"
+        className={`mt-12 mb-2 w-full h-60 bg-slate-100 grid place-items-center border-4 border-slate-800 border-dotted relative ${
+          imgUrl && "pointer-events-none"
+        }`}
+      >
+        <div className="flex flex-col items-center">
+          <CiImageOn className="w-16 h-16 text-slate-400" />
+          <span className="font-semibold text-slate-600">Upload image</span>
+        </div>
+        {imgUrl && (
+          <Image
+            src={imgUrl}
+            alt={"upload image"}
+            fill
+            className="absolute inset-0 object-cover"
+          />
+        )}
+      </CldUploadButton>
+
+      {publicId && (
+          <span
+            onClick={removeImage}
+            className="px-3 py-1.5 bg-gray-800 text-xs text-white rounded mb-4 cursor-pointer hover:opacity-60 z-10"
+          >
+            Change image
+          </span>
+        )}
 
       <select
         className="mt-12 w-full bg-slate-100 py-2 px-1 rounded-md outline-none"
@@ -109,9 +164,18 @@ export default function CreatePostForm() {
             </option>
           ))}
       </select>
-      <button className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-sm hover:opacity-80 mt-4">
-        Post
-      </button>
+      {loading ? (
+        <button
+          disabled
+          className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-sm hover:opacity-80 mt-4 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Creating Post
+        </button>
+      ) : (
+        <button className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-lg hover:opacity-80 mt-4">
+          Create Post
+        </button>
+      )}
     </form>
   );
 }

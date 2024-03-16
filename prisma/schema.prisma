@@ -72,7 +72,7 @@ model Post {
   title      String
   slug       String    @unique
   content    String
-  decription String
+  description String
   imgUrl     String?
   public_id  String?
   createdAt  DateTime  @default(now())
