@@ -3,12 +3,15 @@ import PostCard from './PostCard'
 
 export interface PostType {
     id: string,
-    author: string,
-    imageUrl: string,
-    createdAt: string,
     title: string,
-    desc: string,
-    category: string,
+    slug: string,
+    content: string,
+    description: string,
+    imgUrl?: string,
+    public_id?: string,
+    createdAt: string,
+    userEmail: string,
+    catName: string
 }
 
 const Posts = ({postsData}:{postsData: PostType[]}) => {

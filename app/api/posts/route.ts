@@ -41,18 +41,18 @@ export async function POST(req: Request) {
 
 
 //GET ALL POSTS
+export async function GET(req:Request){
 
-export async function GET(){
   try {
-      const categories = await prisma.post.findMany({
+      const posts = await prisma.post.findMany({
         orderBy: {
           createdAt: "desc"
         }
       })
-      return NextResponse.json(categories, {status: 201})
+      return NextResponse.json(posts, {status: 201})
   } catch (error) {
       console.log(error)
-      return NextResponse.json({message: "error fetching categories"}, {status: 500})
+      return NextResponse.json({message: "error fetching posts"}, {status: 500})
   }
   
 }
