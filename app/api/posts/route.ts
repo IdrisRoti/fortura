@@ -42,11 +42,21 @@ export async function POST(req: Request) {
 
 //GET ALL POSTS
 export async function GET(req:Request){
+  const {searchParams} = new URL(req.url)
+  const cat = searchParams.get("cat") 
 
   try {
       const posts = await prisma.post.findMany({
         orderBy: {
           createdAt: "desc"
+        },
+        include:{user:{
+          select:{
+            name:true
+          }
+        }},
+        where:{
+          ...(cat && {catName: cat})
         }
       })
       return NextResponse.json(posts, {status: 201})

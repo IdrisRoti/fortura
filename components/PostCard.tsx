@@ -10,6 +10,16 @@ import { useRouter } from 'next/navigation';
 const PostCard = ({postData}: {postData: PostType}) => {
 const router = useRouter();
 
+//TO FORMAT DATE
+const dateObject = new Date(postData.createdAt);
+const options:Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year:"numeric"
+}
+
+const formattedDate = dateObject.toLocaleDateString("en-US", options) 
+
   return (
         <article className='md:mt-0'>
                 {postData.imgUrl && <div className="w-full h-[200px] relative">
@@ -17,18 +27,18 @@ const router = useRouter();
                 </div>}
                 <div className='mt-4'>
                     <div className="text-blue-600 flex items-center text-sm">
-                        <span>{postData.slug}</span>
+                        <span>{postData.user.name}</span>
                         <div className="w-1 h-1 rounded full bg-blue-600 mx-2"></div>
-                        <span>{(postData.createdAt).toString()}</span>
+                        <span>{formattedDate }</span>
                     </div>
-                    <Link href={`/post/${postData.id}`}>
+                    <Link href={`/post/${postData.slug}`}>
                         <div className='flex items-center text-2xl justify-between font-bold mt-3'>
                                 <h2>{postData.title}</h2>
                                 <GoArrowUpRight />
                         </div>
                     </Link>
-                    <p className='opacity-80 mb-3'>{postData.description.substring(0, 60)}</p>
-                    <span className="text-sm font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 cursor-pointer dark:text-slate-800" onClick={()=> router.push(`/category/?cat=${postData.catName}`)}>{postData.catName}</span>
+                    <p className='opacity-80 mb-3 text-sm'>{postData.description.substring(0, 60)}</p>
+                    <span className="font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 cursor-pointer dark:text-slate-800 text-xs" onClick={()=> router.push(`/category/?cat=${postData.catName}`)}>{postData.catName}</span>
                 </div>
         </article>
   )

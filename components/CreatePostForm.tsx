@@ -14,6 +14,7 @@ import { catType } from "./Navbar";
 import { CiImageOn } from "react-icons/ci";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function CreatePostForm() {
   const [categories, setCategories] = useState<catType[]>([]);
@@ -26,6 +27,8 @@ export default function CreatePostForm() {
   // const [content, setContent] = useState('');
   const [imgUrl, setImgUrl] = useState(""); //from cloudinary
   const [publicId, setPublicId] = useState(""); //required to delete image on cloudinary when a post is deleted
+
+  const router = useRouter();
 
   const getCategories = async () => {
     await axios
@@ -91,6 +94,11 @@ export default function CreatePostForm() {
         console.log(response);
         setLoading(false);
         toast.success("post created");
+        setValue("")
+        setTitle("")
+        setDescription("")
+        setCategory("")
+        router.push("/")
       }
     } catch (error) {
       console.log(error);
@@ -124,7 +132,7 @@ export default function CreatePostForm() {
 
       <CldUploadButton
         onUpload={handleImageUpload}
-        uploadPreset="xopezhiy"
+        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
         className={`mt-12 mb-2 w-full h-60 bg-slate-100 grid place-items-center border-4 border-slate-800 border-dotted relative ${
           imgUrl && "pointer-events-none"
         }`}

@@ -11,7 +11,8 @@ export interface PostType {
     public_id?: string,
     createdAt: string,
     userEmail: string,
-    catName: string
+    catName: string,
+    user: {name: string}
 }
 
 const Posts = ({postsData}:{postsData: PostType[]}) => {

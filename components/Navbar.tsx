@@ -67,12 +67,12 @@ export default function Navbar() {
           )
         }
         {/* CATEGORIES LIST FOR BIG SCREENS */}
-        <ul className="md:flex hidden gap-4 items-center font-semibold ml-8 text-slate-400 transition dark:text-slate-300 dark:hover:text-white">
+        <ul className="md:flex hidden gap-4 items-center font-semibold ml-8 transition">
           {categories &&
             categories.map((cat) => (
               <li
                 key={cat.id}
-                className="hover:text-slate-900 cursor-pointer uppercase transition"
+                className="hover:opacity-100 opacity-70 cursor-pointer capitalize transition text-sm"
               >
                 {cat.label}
               </li>

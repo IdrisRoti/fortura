@@ -1,10 +1,44 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { CommentType } from "@/app/post/[postSlug]/page";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-const Comments = () => {
+type TComment = { comments: CommentType[]; postSlug: string };
+
+const Comments = ({ comments, postSlug }: TComment) => {
   const { data: session } = useSession();
+
+  const [commentText, setCommentText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  
+  const router = useRouter()
+
+  const handleComment = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`http://localhost:3000//api/comment/${postSlug}`, {
+        commentText,postSlug
+      });
+      if (response) {
+        console.log(response);
+        setLoading(false);
+        toast.success("Comment added");
+        setCommentText("");
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error("Something went wrong");
+      router.refresh();
+    }
+  };
+
 
   return (
     <div>
@@ -14,12 +48,26 @@ const Comments = () => {
         {session ? (
           <>
             <textarea
+              onChange={(e) => setCommentText(e.target.value)}
               className="w-full p-3 border-[1px] h-[150px] focus:outline-none"
               placeholder="Leave a comment"
             ></textarea>
-            <button className="mt-3 px-3 py-1 border-[2px] font-medium">
-              Submit
-            </button>
+            {loading ? (
+              <button
+                className="mt-3 px-3 py-1 border-[2px] font-medium disabled:cursor-not-allowed disabled:opacity-50"
+                disabled
+              >
+                Comment
+              </button>
+            ) : (
+              <button
+                disabled={commentText === "" && true}
+                onClick={handleComment}
+                className="mt-3 px-3 py-1 border-[2px] font-medium"
+              >
+                Comment
+              </button>
+            )}
           </>
         ) : (
           <div>Log in to add a comment</div>
@@ -28,130 +76,47 @@ const Comments = () => {
       <hr className="mt-6 mb-6" />
       {/* COMMENTS */}
       <section>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Paul Runner</h3>
-              <small className="font-medium opacity-70">3 minutes ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet,
-            porro.
-          </p>
-          <hr className="mt-4" />
-        </article>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Adam Lahm</h3>
-              <small className="font-medium opacity-70">25 minutes ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non
-            dolorum rem cum vitae ipsa accusantium!
-          </p>
-          <hr className="mt-4" />
-        </article>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Paul Runner</h3>
-              <small className="font-medium opacity-70">3 minutes ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet,
-            porro.
-          </p>
-          <hr className="mt-4" />
-        </article>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Paul Runner</h3>
-              <small className="font-medium opacity-70">3 minutes ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet,
-            porro.
-          </p>
-          <hr className="mt-4" />
-        </article>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Paul Runner</h3>
-              <small className="font-medium opacity-70">3 minutes ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
-            repudiandae sunt quibusdam reprehenderit. Molestiae, ducimus!
-            Repellendus deserunt incidunt facere minus?
-          </p>
-          <hr className="mt-4" />
-        </article>
-        <article>
-          <div className="flex items-center">
-            <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
-              <Image
-                fill
-                src={"/sport.jpg"}
-                alt="profile image"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold">Paul Runner</h3>
-              <small className="font-medium opacity-70">2 hours ago</small>
-            </div>
-          </div>
-          <p className="opacity-85 mt-2">Lorem ipsum dolor sit amet.</p>
-          <hr className="mt-4" />
-        </article>
+        {comments?.length > 0 ? (
+          comments.map((comment) => {
+            //TO FORMAT DATE
+            const dateObject = new Date(comment.createdAt);
+            const options: Intl.DateTimeFormatOptions = {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            };
+
+            const formattedDate = dateObject.toLocaleDateString(
+              "en-US",
+              options
+            );
+
+            return (
+              <article key={comment.id}>
+                <div className="flex items-center">
+                  <div className="relative w-7 h-7 rounded-full overflow-hidden mr-2">
+                    <Image
+                      fill
+                      src={comment.user.image || ""}
+                      alt="profile image"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Paul Runner</h3>
+                    <small className="font-medium opacity-70">
+                      {formattedDate}
+                    </small>
+                  </div>
+                </div>
+                <p className="opacity-85 mt-2">{comment.content}</p>
+                <hr className="mt-4" />
+              </article>
+            );
+          })
+        ) : (
+          <p>Be the first to comment</p>
+        )}
       </section>
     </div>
   );
