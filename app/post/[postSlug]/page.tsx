@@ -29,6 +29,8 @@ const getCommentsData = async (slug: string) => {
   return res.data;
 };
 
+
+
 const SinglePost = async ({ params }: { params: { postSlug: string } }) => {
   const { postSlug } = params;
   const post: PostType = await getPostData(postSlug);
@@ -62,7 +64,7 @@ const SinglePost = async ({ params }: { params: { postSlug: string } }) => {
             <h2 className="text-4xl">{post.title}</h2>
             <small className="flex items-center my-2 opacity-80">
               By {post.user.name}{" "}
-              <div className="w-1 h-1 rounded-full bg-white mx-1">
+              <div className="rounded-full bg-white mx-1">
                 {formattedDate}
               </div>
             </small>

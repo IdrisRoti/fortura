@@ -30,12 +30,12 @@ const Comments = ({ comments, postSlug }: TComment) => {
         setLoading(false);
         toast.success("Comment added");
         setCommentText("");
+        router.refresh();
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
       toast.error("Something went wrong");
-      router.refresh();
     }
   };
 
@@ -57,7 +57,7 @@ const Comments = ({ comments, postSlug }: TComment) => {
                 className="mt-3 px-3 py-1 border-[2px] font-medium disabled:cursor-not-allowed disabled:opacity-50"
                 disabled
               >
-                Comment
+                Please wait...
               </button>
             ) : (
               <button

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export type catType = {
   id: string;
@@ -19,6 +20,8 @@ export type catType = {
 export default function Navbar() {
   const [openCats, setOpenCats] = useState(false);
   const [categories, setCategories] = useState<catType[]>([]);
+
+  const router = useRouter()
 
   const getCategories = async () => {
       await axios
@@ -41,11 +44,12 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between fixed left-0 right-0 top-0 z-[999] backdrop-blur-[30px] items-center sm:py-2 md:px-8 px-2 py-2 dark:bg-slate-900">
       <div className="flex items-center">
-        <span className="font-semibold text-blue-600 text-2xl">
-          <Link href={"/"}>fortura</Link>
+        <span className=" font-semibold text-blue-600 text-2xl">
+          <Link className="hidden md:block" href={"/"}>fortura</Link>
+          <Link className="md:hidden italic  border border-blue-600 border-5 rounded-full" href={"/"}>f</Link>
         </span>
         <span
-          className="md:hidden flex items-center ml-4 text-slate-400 font-semibold cursor-pointer transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+          className="md:hidden flex items-center ml-4 text-slate-400 font-semibold cursor-pointer transition hover:text-slate-900 text-sm md:text-base"
           onClick={() => setOpenCats((prev) => !prev)}
         >
           categories <IoIosArrowDown />
@@ -57,8 +61,9 @@ export default function Navbar() {
               {categories &&
                 categories.map((cat) => (
                   <li
+                    onClick={()=> router.push(`/category/?cat=${cat.label}`)}
                     key={cat.id}
-                    className="p-2 w-full hover:bg-slate-100 transition cursor-pointer capitalize"
+                    className="p-2 w-full hover:bg-slate-100 transition cursor-pointer text-sm capitalize"
                   >
                     {cat.label}
                   </li>
@@ -71,6 +76,7 @@ export default function Navbar() {
           {categories &&
             categories.map((cat) => (
               <li
+                onClick={()=> router.push(`/category/?cat=${cat.label}`)}
                 key={cat.id}
                 className="hover:opacity-100 opacity-70 cursor-pointer capitalize transition text-sm"
               >
@@ -84,7 +90,7 @@ export default function Navbar() {
       {status === "authenticated" && (
         <Link
           href={"/create-post"}
-          className="px-3 py-1 border-[1px] rounded-md ml-auto mr-2 hover:opacity-70 font-semibold"
+          className="px-3 py-1 border-[1px] rounded-md ml-auto mr-2 hover:opacity-70 font-semibold text-sm md:text-base"
         >
           Create
         </Link>
@@ -94,7 +100,7 @@ export default function Navbar() {
         {status === "authenticated" && (
           <div className="flex items-center">
             <button
-              className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition"
+              className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition text-sm md:text-base font-red-600"
               onClick={() => signOut()}
             >
               Sign out
@@ -108,15 +114,10 @@ export default function Navbar() {
             />
           </div>
         )}
-        {/* {
-                    status === "loading" && (
-                        <button disabled className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"><span className="mr-2"><FcGoogle /></span> Please wait...</button>
-                    )
-                } */}
         {status === "unauthenticated" && (
           <button
             onClick={() => signIn("google")}
-            className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition flex items-center justify-between"
+            className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition flex items-center justify-between text-sm md:text-base"
           >
             <span className="mr-2">
               <FcGoogle />

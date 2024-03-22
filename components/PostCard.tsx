@@ -37,7 +37,7 @@ const formattedDate = dateObject.toLocaleDateString("en-US", options)
                                 <GoArrowUpRight />
                         </div>
                     </Link>
-                    <p className='opacity-80 mb-3 text-sm'>{postData.description.substring(0, 60)}</p>
+                    <p className='opacity-80 mb-3 text-sm'>{postData.description}</p>
                     <span className="font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 cursor-pointer dark:text-slate-800 text-xs" onClick={()=> router.push(`/category/?cat=${postData.catName}`)}>{postData.catName}</span>
                 </div>
         </article>
