@@ -18,7 +18,7 @@ const RecentPosts = async () => {
     const posts:PostType[] = await getData()
 
   return (
-    <section className="px-2 mt-12">
+    <section className="px-2 mt-16">
         <h2 className="text-2xl">Recent blog Posts</h2>
         <div className="md:grid md:grid-cols-2 md:items-start mt-4">
             {/* RECENT POST 1 */}
