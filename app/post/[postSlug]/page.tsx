@@ -50,14 +50,12 @@ const SinglePost = async ({ params }: { params: { postSlug: string } }) => {
   return (
     <div className="p-2 md:p-4 max-w-[1200px] mx-auto md:pt-[80px] sm:pt-[100px] pt-[70px]">
       <div className="w-full h-[400px] relative rounded-2xl overflow-hidden">
-        {post.imgUrl && (
           <Image
-            src={post.imgUrl}
+            src={post.imgUrl || "/default-image.jpg"}
             className="object-cover"
             fill
             alt="post image"
           />
-        )}
 
         <div className="absolute bg-gradient-to-t from-[rgba(0,0,0,.7)] to-[transparent] w-full h-full">
           <div className="absolute bottom-0 p-4 text-white">
