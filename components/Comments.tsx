@@ -22,7 +22,7 @@ const Comments = ({ comments, postSlug }: TComment) => {
   const handleComment = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(`http://localhost:3000//api/comment/${postSlug}`, {
+      const response = await axios.post(`api/comment/${postSlug}`, {
         commentText,postSlug
       });
       if (response) {

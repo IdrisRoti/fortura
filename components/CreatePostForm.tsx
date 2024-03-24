@@ -64,11 +64,11 @@ export default function CreatePostForm() {
         console.log(data);
         setPublicId(""),
         setImgUrl("");
-        toast.success("Image deleted!");
+        toast.success("Image removed!");
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Failed to delete image!");
+        toast.error("Failed to remove image!");
       });
   };
 
@@ -82,7 +82,7 @@ export default function CreatePostForm() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:3000//api/posts", {
+      const response = await axios.post("/api/posts", {
         title,
         value,
         category,
