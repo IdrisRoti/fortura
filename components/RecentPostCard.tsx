@@ -29,7 +29,7 @@ const formattedDate = dateObject.toLocaleDateString("en-US", options)
                 <div className='mt-4 md:mt-0 md:flex-1'>
                     <div className="text-blue-600 flex items-center text-sm">
                         <span>{post.user.name}</span>
-                        <div className="w-2 h-2 rounded full bg-blue-600 mx-2"></div>
+                        <div className="w-1 h- rounded full bg-blue-600 mx-2"></div>
                         <span>{formattedDate}</span>
                     </div>
                     <Link href={`/post/${post.slug}`} className='flex items-center text-2xl justify-between font-bold mt-3'>
@@ -37,7 +37,7 @@ const formattedDate = dateObject.toLocaleDateString("en-US", options)
                          <GoArrowUpRight />
                     </Link>
                     <p className='opacity-80 mb-3 text-sm'>{post.description}</p>
-                    <span className="text-sm font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 dark:text-slate-800" onClick={()=> router.push(`/category/?cat=${post.catName}`)}>{post.catName}</span>
+                    <span className="text-sm font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 dark:text-slate-800" onClick={()=> router.push(`/category?cat=${post.catName}`)}>{post.catName}</span>
                 </div>
             </article>
   )

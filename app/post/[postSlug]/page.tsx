@@ -64,7 +64,7 @@ const SinglePost = async ({ params }: { params: { postSlug: string } }) => {
             <h2 className="text-4xl">{post.title}</h2>
             <small className="flex items-center my-2 opacity-80">
               By {post.user.name}{" "}
-              <div className="rounded-full bg-white mx-1">
+              <div className="mx-1">
                 {formattedDate}
               </div>
             </small>

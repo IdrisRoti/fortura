@@ -103,7 +103,7 @@ const Comments = ({ comments, postSlug }: TComment) => {
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Paul Runner</h3>
+                    <h3 className="font-semibold">{comment.user.name}</h3>
                     <small className="font-medium opacity-70">
                       {formattedDate}
                     </small>

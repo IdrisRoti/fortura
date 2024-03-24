@@ -1,4 +1,3 @@
-import React from 'react'
 import PostCard from './PostCard'
 
 export interface PostType {
@@ -16,14 +15,19 @@ export interface PostType {
 }
 
 const Posts = ({postsData}:{postsData: PostType[]}) => {
+
+if(!postsData){
+    return null;
+}
+
   return (
     <div>
         {postsData && postsData.length > 0 ? (
             <>
-            <main className='posts pb-10'>
-                {postsData.map((postData)=> <PostCard postData={postData} key={postData.id}/>)}
-            </main>
-            <hr />
+                <main className='posts pb-10'>
+                    {postsData.map((postData)=> <PostCard postData={postData} key={postData.id}/>)}
+                </main>
+                <hr />
             </>
         ) : (
             <div>No Posts to display :(</div>

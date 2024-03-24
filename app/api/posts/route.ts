@@ -39,30 +39,33 @@ export async function POST(req: Request) {
   }
 }
 
-
 //GET ALL POSTS
-export async function GET(req:Request){
-  const {searchParams} = new URL(req.url)
-  const cat = searchParams.get("cat") 
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const cat = searchParams.get("cat");
 
   try {
-      const posts = await prisma.post.findMany({
-        orderBy: {
-          createdAt: "desc"
+    const posts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
         },
-        include:{user:{
-          select:{
-            name:true
-          }
-        }},
-        where:{
-          ...(cat && {catName: cat})
-        }
-      })
-      return NextResponse.json(posts, {status: 201})
+      },
+      where: {
+        ...(cat && { catName: cat }),
+      },
+    });
+    return NextResponse.json(posts, { status: 201 });
   } catch (error) {
-      console.log(error)
-      return NextResponse.json({message: "error fetching posts"}, {status: 500})
+    console.log(error);
+    return NextResponse.json(
+      { message: "error fetching posts" },
+      { status: 500 }
+    );
   }
-  
 }
