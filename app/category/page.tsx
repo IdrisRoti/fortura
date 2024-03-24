@@ -17,7 +17,7 @@ const Category = async ({
   const catPosts = await getData(cat);
 
   return (
-    <div className="pt-[70px] max-w-1400px mx-auto p-2">
+    <div className="pt-[70px] max-w-[1400px] mx-auto p-2">
       <h2 className="font-bold text-2xl mb-3">
         <span className="text-blue-600 capitalize">{cat}</span> Posts
       </h2>

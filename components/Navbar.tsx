@@ -35,6 +35,12 @@ export default function Navbar() {
         });
   };
 
+
+  const categoryBtnClick = (label: string)=>{
+    setOpenCats(false)
+    router.push(`/category/?cat=${label}`)
+  }
+
   useEffect(() => {
     getCategories();
   }, []);
@@ -42,7 +48,7 @@ export default function Navbar() {
   const { data: session, status } = useSession();
 
   return (
-    <nav className="flex justify-between fixed left-0 right-0 top-0 z-[999] backdrop-blur-[30px] items-center sm:py-2 md:px-8 px-2 py-2 dark:bg-slate-900">
+    <nav className="flex justify-between fixed left-0 right-0 top-0 z-[999] backdrop-blur-[30px] items-center sm:py-2 md:px-8 px-2 py-2">
       <div className="flex items-center">
         <span className=" font-semibold text-blue-600 text-2xl">
           <Link className="hidden md:block" href={"/"}>fortura</Link>
@@ -61,7 +67,7 @@ export default function Navbar() {
               {categories &&
                 categories.map((cat) => (
                   <li
-                    onClick={()=> router.push(`/category/?cat=${cat.label}`)}
+                    onClick={()=>categoryBtnClick(cat.label)}
                     key={cat.id}
                     className="p-2 w-full hover:bg-slate-100 transition cursor-pointer text-sm capitalize"
                   >
@@ -100,7 +106,7 @@ export default function Navbar() {
         {status === "authenticated" && (
           <div className="flex items-center">
             <button
-              className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition text-sm md:text-base font-red-600"
+              className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition text-sm md:text-base font-red-600 outline-none"
               onClick={() => signOut()}
             >
               Sign out
@@ -117,7 +123,7 @@ export default function Navbar() {
         {status === "unauthenticated" && (
           <button
             onClick={() => signIn("google")}
-            className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition flex items-center justify-between text-sm md:text-base"
+            className="py-1 px-3 rounded-md font-semibold hover:opacity-70 border-[1px] transition flex items-center justify-between text-sm md:text-base outline-none"
           >
             <span className="mr-2">
               <FcGoogle />

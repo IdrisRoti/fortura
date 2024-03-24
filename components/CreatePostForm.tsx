@@ -161,7 +161,7 @@ export default function CreatePostForm() {
         )}
 
       <select
-        className="mt-12 w-full bg-slate-100 py-2 px-1 rounded-md outline-none"
+        className="mt-8 w-full bg-slate-100 py-2 px-1 rounded-md outline-none"
         onChange={(e) => setCategory(e.target.value)}
       >
         <option value="">Select a category</option>
@@ -175,12 +175,12 @@ export default function CreatePostForm() {
       {loading ? (
         <button
           disabled
-          className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-sm hover:opacity-80 mt-4 disabled:cursor-not-allowed disabled:opacity-60"
+          className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-lg hover:opacity-80 mt-4 disabled:cursor-not-allowed disabled:opacity-60"
         >
           Creating Post
         </button>
       ) : (
-        <button className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-lg hover:opacity-80 mt-4">
+        <button className="px-3 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:opacity-80 mt-2">
           Create Post
         </button>
       )}
