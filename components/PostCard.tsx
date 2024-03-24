@@ -22,16 +22,14 @@ const PostCard = ({ postData, key }: { postData: PostType; key: string }) => {
 
   return (
     <article className="md:mt-0" key={key}>
-      {postData.imgUrl && (
         <div className="w-full h-[200px] relative">
           <Image
             alt={postData?.title}
-            src={postData?.imgUrl}
+            src={postData?.imgUrl || "@/default-image.jpg"}
             className="object-cover"
             fill
           />
         </div>
-      )}
       <div className="mt-4">
         <div className="text-blue-600 flex items-center text-sm">
           <span>{postData?.user?.name}</span>
