@@ -25,7 +25,7 @@ const PostCard = ({ postData, key }: { postData: PostType; key: string }) => {
         <div className="w-full h-[200px] relative">
           <Image
             alt={postData?.title}
-            src={postData?.imgUrl || "@/default-image.jpg"}
+            src={postData?.imgUrl || "/default-image.jpg"}
             className="object-cover"
             fill
           />
@@ -47,7 +47,7 @@ const PostCard = ({ postData, key }: { postData: PostType; key: string }) => {
           className="font-bold px-2 py-1 bg-red-100 rounded-full dark:bg-red-300 cursor-pointer dark:text-slate-800 text-xs"
           onClick={() => router.push(`/category?cat=${postData?.catName}`)}
         >
-          {postData?.catName}
+          {postData?.catName }
         </span>
       </div>
     </article>

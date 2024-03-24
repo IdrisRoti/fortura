@@ -73,7 +73,7 @@ const SinglePost = async ({ params }: { params: { postSlug: string } }) => {
       </div>
       <div className="mt-4 blog-content">
         {parse(post.content)}
-        <span className="text-sm font-bold px-2 pt-1 pb-1 bg-red-100 hover:opacity-70 cursor-pointer rounded-full">
+        <span className="text-sm font-bold px-2 pt-1 pb-1 mt-2 bg-red-100 hover:opacity-70 cursor-pointer rounded-full">
           {post.catName}
         </span>
       </div>

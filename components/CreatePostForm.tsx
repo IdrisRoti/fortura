@@ -23,7 +23,7 @@ export default function CreatePostForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("random");
   // const [content, setContent] = useState('');
   const [imgUrl, setImgUrl] = useState(""); //from cloudinary
   const [publicId, setPublicId] = useState(""); //required to delete image on cloudinary when a post is deleted

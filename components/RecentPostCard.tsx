@@ -24,7 +24,7 @@ const formattedDate = dateObject.toLocaleDateString("en-US", options)
   return (
     <article className='mt-4 md:mt-0 md:flex'>
     <div className="w-full h-[200px] md:flex-1 relative md:mr-4">
-                    <Image alt={post.title} src={post.imgUrl || "@/default-image.jpg"} className='object-cover' fill/>
+                    <Image alt={post.title} src={post.imgUrl || "/default-image.jpg"} className='object-cover' fill/>
                 </div>
                 <div className='mt-4 md:mt-0 md:flex-1'>
                     <div className="text-blue-600 flex items-center text-sm">
